@@ -25,7 +25,6 @@
     vscode-flake = {
       url = "./vscode";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.fish-flake.follows = "fish-flake";
     };
     nushell-flake = {
       url = "./nushell";
@@ -84,64 +83,69 @@
     };
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    nixpkgs-stable,
-    flake-utils,
-    fish-flake,
-    git-flake,
-    nushell-flake,
-    vim-flake,
-    helix-flake,
-    vscode-flake,
-    st-flake,
-    wezterm-flake,
-    jetporch-flake,
-    ansible-flake,
-    vimb-flake,
-    op-flake,
-    lima-flake,
-    chromium-widevine-flake,
-    gnome-flake,
-    qutebrowser-flake,
-    zen-browser-flake,
-    tabby-flake,
-  }:
-    flake-utils.lib.eachDefaultSystem (system: let
-      pkgs = nixpkgs.legacyPackages.${system};
-    in {
-      packages = {
-        fish = fish-flake.packages.${system}.fish;
-        nushell = nushell-flake.packages.${system}.nushell;
-        git = git-flake.packages.${system}.git;
-        tmux = fish-flake.packages.${system}.tmux;
-        vim = vim-flake.defaultPackage.${system};
-        helix = helix-flake.packages.${system}.helix;
-        helix-config = helix-flake.packages.${system}.helix-config;
-        vscode = vscode-flake.packages.${system}.default;
-        vscode-userdir = vscode-flake.packages.${system}.user-dir;
-        vscode-bin = vscode-flake.packages.${system}.code-bin;
-        st = st-flake.packages.${system}.st;
-        wezterm = wezterm-flake.packages.${system}.wezterm;
-        wezterm-gl = wezterm-flake.packages.${system}.wezterm-gl;
-        workstation = ansible-flake.packages.${system}.workstation;
-        server = ansible-flake.packages.${system}.server;
-        vimb = vimb-flake.packages.${system}.vimb;
-        vimb-gl = vimb-flake.packages.${system}.vimb-gl;
-        op = op-flake.packages.${system}.op;
-        op-desktop-setup = op-flake.packages.${system}.op-desktop-setup;
-        nixos-vm = lima-flake.packages.${system}.runVm;
-        lima-nixos-img = lima-flake.packages.${system}.img;
-        chromium-widevine = chromium-widevine-flake.packages.aarch64-linux.chromium-widevine;
-        gnome = gnome-flake.packages.${system}.gnome-desktop-setup;
-        gnome-dconf = gnome-flake.packages.${system}.dconf;
-        qutebrowser = qutebrowser-flake.packages.${system}.qutebrowser;
-        qutebrowser-config = qutebrowser-flake.packages.${system}.qutebrowser-config;
-        zen-browser = zen-browser-flake.packages.${system}.default;
-        tabby = tabby-flake.packages.${system}.tabby-wrapper;
-        zellij = fish-flake.packages.${system}.zellij;
-      };
-      formatter = pkgs.alejandra;
-    });
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nixpkgs-stable,
+      flake-utils,
+      fish-flake,
+      git-flake,
+      nushell-flake,
+      vim-flake,
+      helix-flake,
+      vscode-flake,
+      st-flake,
+      wezterm-flake,
+      jetporch-flake,
+      ansible-flake,
+      vimb-flake,
+      op-flake,
+      lima-flake,
+      chromium-widevine-flake,
+      gnome-flake,
+      qutebrowser-flake,
+      zen-browser-flake,
+      tabby-flake,
+    }:
+    flake-utils.lib.eachDefaultSystem (
+      system:
+      let
+        pkgs = nixpkgs.legacyPackages.${system};
+      in
+      {
+        packages = {
+          fish = fish-flake.packages.${system}.fish;
+          nushell = nushell-flake.packages.${system}.nushell;
+          git = git-flake.packages.${system}.git;
+          tmux = fish-flake.packages.${system}.tmux;
+          vim = vim-flake.defaultPackage.${system};
+          helix = helix-flake.packages.${system}.helix;
+          helix-config = helix-flake.packages.${system}.helix-config;
+          vscode = vscode-flake.packages.${system}.default;
+          vscode-userdir = vscode-flake.packages.${system}.user-dir;
+          vscode-bin = vscode-flake.packages.${system}.code-bin;
+          st = st-flake.packages.${system}.st;
+          wezterm = wezterm-flake.packages.${system}.wezterm;
+          wezterm-gl = wezterm-flake.packages.${system}.wezterm-gl;
+          workstation = ansible-flake.packages.${system}.workstation;
+          server = ansible-flake.packages.${system}.server;
+          vimb = vimb-flake.packages.${system}.vimb;
+          vimb-gl = vimb-flake.packages.${system}.vimb-gl;
+          op = op-flake.packages.${system}.op;
+          op-desktop-setup = op-flake.packages.${system}.op-desktop-setup;
+          nixos-vm = lima-flake.packages.${system}.runVm;
+          lima-nixos-img = lima-flake.packages.${system}.img;
+          chromium-widevine = chromium-widevine-flake.packages.aarch64-linux.chromium-widevine;
+          gnome = gnome-flake.packages.${system}.gnome-desktop-setup;
+          gnome-dconf = gnome-flake.packages.${system}.dconf;
+          qutebrowser = qutebrowser-flake.packages.${system}.qutebrowser;
+          qutebrowser-config = qutebrowser-flake.packages.${system}.qutebrowser-config;
+          zen-browser = zen-browser-flake.packages.${system}.default;
+          tabby = tabby-flake.packages.${system}.tabby-wrapper;
+          zellij = fish-flake.packages.${system}.zellij;
+        };
+        formatter = pkgs.alejandra;
+      }
+    );
 }
